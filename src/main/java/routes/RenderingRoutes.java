@@ -33,7 +33,7 @@ public class RenderingRoutes {
     public void configureRenderingRoutes(Javalin app) {
         Map<String, Object> renderingModel = new HashMap<>();
         Role myRole = Role.DEFAULT;
-        renderingModel.put("role", myRole);
+        renderingModel.put("role", myRole.name());
 
         // Define the home page route
         app.get("/", ctx -> renderingController.renderTemplate(ctx, "/templates/index.html", renderingModel), Role.DEFAULT);

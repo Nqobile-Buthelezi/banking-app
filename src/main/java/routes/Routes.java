@@ -1,21 +1,37 @@
 package routes;
 
-import controller.BankingController;
+import controller.*;
 import io.javalin.Javalin;
 
+/**
+ * The Routes class configures routes for the Javalin web application.
+ * It sets up various routes, including those for user actions, onboarding, and rendering templates.
+ * The class delegates route handling to specific controllers for each area of functionality.
+ */
 public class Routes {
-    private final BankingController bankingController;
 
-    public Routes(BankingController bankingController) {
-        this.bankingController = bankingController;
-    }
-
+    /**
+     * Configures routes for the Javalin web application.
+     * Defines routes for user actions, onboarding, and rendering templates.
+     *
+     * @param app The Javalin application to which routes are added.
+     */
     public void configureRoutes(Javalin app) {
-        // Define your routes here
-        app.get("/", ctx -> bankingController.renderHtml(ctx, "/templates/index.html"));
-        app.post("/createAccount", ctx -> ctx.result(bankingController.createAccount()));
-        app.post("/deposit", ctx -> ctx.result(bankingController.deposit()));
-        app.post("/withdraw", ctx -> ctx.result(bankingController.withdraw()));
-        app.get("/balance", ctx -> ctx.result(bankingController.getBalance()));
+
+        // Configure routes for user actions
+        UserRoutes userRoutes = new UserRoutes(new UserController());
+        userRoutes.configureUserRoutes(app);
+
+        // Configure routes for onboarding processes
+        OnboardingRoutes onboardingRoutes = new OnboardingRoutes(
+                new ValidationController(),
+                new PasswordController(),
+                new AccountController()
+        );
+        onboardingRoutes.configureOnboardingRoutes(app);
+
+        // Configure routes for rendering templates
+        RenderingRoutes renderingRoutes = new RenderingRoutes(new RenderingController());
+        renderingRoutes.configureRenderingRoutes(app);
     }
 }

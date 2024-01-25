@@ -3,16 +3,32 @@ package service;
 import exceptions.InsufficientFundsException;
 import model.Account;
 import util.DatabaseConnection;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
+/**
+ * The BankingService class provides business logic related to banking operations,
+ * such as creating user tables, creating accounts, depositing, withdrawing, and checking balances.
+ * It interacts with the data layer, and in this example, it uses a database for persistence.
+ */
 public class BankingService {
 
-    public void createTable() {
+    /**
+     * Creates the user_accounts table in the database if it doesn't exist.
+     * This table is used to store user account information.
+     */
+    public void createUserTable() {
         try (Connection connection = DatabaseConnection.connect()) {
             // Create a table if it doesn't exist
-            String createTableSQL = "CREATE TABLE IF NOT EXISTS accounts (id INTEGER PRIMARY KEY, customer_name TEXT, balance REAL)";
+            String createTableSQL = "CREATE TABLE IF NOT EXISTS user_accounts " +
+                    "(id INTEGER PRIMARY KEY, " +
+                    "username TEXT UNIQUE, " +
+                    "password TEXT, " +
+                    "first_name TEXT, " +
+                    "last_name TEXT, " +
+                    "balance REAL)";
             try (PreparedStatement preparedStatement = connection.prepareStatement(createTableSQL)) {
                 preparedStatement.executeUpdate();
             }
@@ -22,6 +38,13 @@ public class BankingService {
         }
     }
 
+    /**
+     * Creates a new account with the provided customer name and initial balance.
+     *
+     * @param customerName    The name of the account holder.
+     * @param initialBalance  The initial balance of the account.
+     * @return                The newly created Account object.
+     */
     public Account createAccount(String customerName, double initialBalance) {
         // Implement logic for creating a new account
         // You might interact with the data layer here (e.g., a database)
@@ -29,6 +52,13 @@ public class BankingService {
         return new Account(customerName, initialBalance);
     }
 
+    /**
+     * Deposits the specified amount into the given account.
+     *
+     * @param account  The account to deposit into.
+     * @param amount   The amount to deposit.
+     * @return         The new balance after the deposit.
+     */
     public double deposit(Account account, double amount) {
         // Implement logic for depositing into an account
         // Update the account balance and return the new balance
@@ -36,6 +66,14 @@ public class BankingService {
         return account.getBalance();
     }
 
+    /**
+     * Withdraws the specified amount from the given account.
+     *
+     * @param account  The account to withdraw from.
+     * @param amount   The amount to withdraw.
+     * @return         The new balance after the withdrawal.
+     * @throws InsufficientFundsException If the account has insufficient funds for the withdrawal.
+     */
     public double withdraw(Account account, double amount) throws InsufficientFundsException {
         // Implement logic for withdrawing from an account
         // Check for sufficient funds, update the account balance, and return the new balance
@@ -48,6 +86,12 @@ public class BankingService {
         }
     }
 
+    /**
+     * Retrieves the current balance of the given account.
+     *
+     * @param account  The account to check the balance.
+     * @return         The current balance of the account.
+     */
     public double getBalance(Account account) {
         // Implement logic for checking account balance
         // Return the current balance

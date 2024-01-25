@@ -11,6 +11,7 @@ https://www.tooplate.com/view/2135-mini-finance
 -----------------------------------------*/
 :root {
   --white-color:                  #ffffff;
+  --black-color:                  #000000;
   --primary-color:                #E63946;
   --secondary-color:              #F1FAEE;
   --section-bg-color:             #ececec;
@@ -23,7 +24,7 @@ https://www.tooplate.com/view/2135-mini-finance
   --border-color:                 #e0e0e5;
   --link-hover-color:             #E63946;
 
-  --body-font-family:             'Unbounded';
+  --body-font-family:             'Unbounded', sans-serif;
 
   --h1-font-size:                 74px;
   --h2-font-size:                 46px;
@@ -136,6 +137,10 @@ strong {
 .main-wrapper {
   background: var(--section-bg-color);
   min-height: calc(100vh - 65px);
+}
+
+.sign-up-background {
+background-color: #F1FAEE;
 }
 
 .section-padding {
@@ -295,6 +300,16 @@ strong {
   color: var(--p-color);
 }
 
+/*---------------------------------------
+  ONBOARDING
+-----------------------------------------*/
+
+#password-tooltip {
+    font-size: 12px; /* Adjust the font size to make it smaller */
+    opacity: 0.7; /* Set the opacity to your desired level (0.0 to 1.0) */
+    margin-top: 5px; /* Adjust the margin to control spacing */
+    /* Add any other styles you want to customize */
+}
 
 /*---------------------------------------
   NOTIFICATIONS ICON              
@@ -341,6 +356,24 @@ strong {
   color: var(--white-color);
 }
 
+.sign-up-btn {
+    border-radius: var(--border-radius-large);
+    padding: 10px 20px;
+    color: var(--white-color);
+    font-size: var(--btn-font-size);
+    font-weight: var(--font-weight-bold);
+    line-height: normal;
+}
+
+.login-btn {
+    border-radius: var(--border-radius-large);
+    padding: 10px 20px;
+    color: var(--white-color);
+    font-size: var(--btn-font-size);
+    font-weight: var(--font-weight-bold);
+    line-height: normal;
+    background: var(--heading-color)
+}
 
 /*---------------------------------------
   CUSTOM BUTTON               

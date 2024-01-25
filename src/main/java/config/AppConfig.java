@@ -1,13 +1,33 @@
 package config;
 
+/**
+ * The AppConfig class holds configuration constants for the application.
+ * It includes database-related information and server configuration.
+ */
 public class AppConfig {
-    static String dataBaseDirectory = System.getProperty("user.dir") + "/db";
 
-    // Database configuration
+    /**
+     * The directory location for the database file.
+     * It is set based on the user's working directory.
+     */
+    static String dataBaseDirectory = System.getProperty("user.dir") + "/src/main/java/db";
+
+    /**
+     * The URL for connecting to the SQLite database.
+     * It is constructed using the database directory and file name.
+     */
     public static final String DB_URL = "jdbc:sqlite:" + dataBaseDirectory + "/database.db";
 
-    // Server configuration
+    /**
+     * The port number on which the server will run.
+     */
     public static final int SERVER_PORT = 7000;
 
-    // Other application-wide constants or configurations can be added here
+    /**
+     * Private constructor to prevent instantiation of the AppConfig class.
+     * All members and methods are static, and the class is meant to be used as a utility class.
+     */
+    private AppConfig() {
+        // Private constructor to prevent instantiation
+    }
 }

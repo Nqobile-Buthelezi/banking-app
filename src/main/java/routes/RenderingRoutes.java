@@ -44,6 +44,11 @@ public class RenderingRoutes {
             renderingController.renderTemplate(ctx, "templates/onboarding-start.html", renderingModel);
         }, Role.DEFAULT);
 
+        app.get("/signup-end", ctx -> {
+            // Logic for rendering the second stage of signing up.
+            renderingController.renderTemplate(ctx, "templates/onboarding-end.html", renderingModel);
+        }, Role.DEFAULT);
+
         app.get("/login", ctx -> {
             // Logic for rendering login page
             renderingController.renderTemplate(ctx, "templates/login.html", renderingModel);

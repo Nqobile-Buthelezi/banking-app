@@ -22,13 +22,21 @@ public class BankingService {
     public void createUserTable() {
         try (Connection connection = DatabaseConnection.connect()) {
             // Create a table if it doesn't exist
-            String createTableSQL = "CREATE TABLE IF NOT EXISTS user_accounts " +
-                    "(id INTEGER PRIMARY KEY, " +
-                    "username TEXT UNIQUE, " +
-                    "password TEXT, " +
-                    "first_name TEXT, " +
-                    "last_name TEXT, " +
-                    "balance REAL)";
+            String createTableSQL = "CREATE TABLE IF NOT EXISTS user_accounts (\n" +
+                    "    id INTEGER PRIMARY KEY,\n" +
+                    "    username TEXT UNIQUE,\n" +
+                    "    password TEXT,\n" +
+                    "    first_name TEXT,\n" +
+                    "    last_name TEXT,\n" +
+                    "    email TEXT,\n" +
+                    "    phone TEXT,\n" +
+                    "    address TEXT,\n" +
+                    "    city TEXT,\n" +
+                    "    postal_code TEXT,\n" +
+                    "    date_of_birth DATE,\n" +
+                    "    gender TEXT,\n" +
+                    "    balance REAL\n" +
+                    ");\n";
             try (PreparedStatement preparedStatement = connection.prepareStatement(createTableSQL)) {
                 preparedStatement.executeUpdate();
             }

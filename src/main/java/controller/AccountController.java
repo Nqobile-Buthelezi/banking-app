@@ -2,10 +2,8 @@ package controller;
 
 import util.DatabaseConnection;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
+import java.time.LocalDate;
 
 /**
  * The AccountController class contains methods related to user account operations,
@@ -69,5 +67,30 @@ public class AccountController {
             throw new RuntimeException("Error checking username uniqueness.");
         }
         return false;
+    }
+
+    public boolean updateUserData(String username, String email, String phone, String address, String city, String postalCode, LocalDate dateOfBirth, String gender) {
+        try (Connection connection = DatabaseConnection.connect()) {
+            String updateSQL = "UPDATE user_accounts SET email=?, phone=?, address=?, city=?, postal_code=?, date_of_birth=?, gender=? WHERE username=?";
+
+            try (PreparedStatement preparedStatement = connection.prepareStatement(updateSQL)) {
+                preparedStatement.setString(1, email);
+                preparedStatement.setString(2, phone);
+                preparedStatement.setString(3, address);
+                preparedStatement.setString(4, city);
+                preparedStatement.setString(5, postalCode);
+                preparedStatement.setDate(6, Date.valueOf(dateOfBirth));
+                preparedStatement.setString(7, gender);
+                preparedStatement.setString(8, username);
+
+                int rowsAffected = preparedStatement.executeUpdate();
+
+                // Check if the data was successfully updated
+                return rowsAffected > 0;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 }

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -57,6 +57,13 @@
                         <div class="mb-3">
                             <label for="last-name" class="form-label">Last Name:</label>
                             <input type="text" class="form-control" id="last-name" name="last-name" placeholder="Enter your last name" required>
+                        </div>
+
+                        <!-- Add this section to display the error message -->
+                        <div th:if="${param.error != null and not #strings.isEmpty(param.error)}">
+                            <div class="alert alert-danger" role="alert">
+                                <p th:text="${param.error}"></p>
+                            </div>
                         </div>
 
                         <div class="mb-3">

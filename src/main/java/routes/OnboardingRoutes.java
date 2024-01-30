@@ -7,6 +7,9 @@ import io.javalin.Javalin;
 import io.javalin.http.Context;
 import routes.RoleAccess.Role;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.time.LocalDate;
 
 /**
@@ -93,7 +96,7 @@ public class OnboardingRoutes {
     }
 
 
-    private void handleOnboardingFormSubmission(Context ctx) {
+    private void handleOnboardingFormSubmission(Context ctx) throws UnsupportedEncodingException {
         // Retrieve form data from the request
         String username = ctx.formParam("username");
         String password = ctx.formParam("password");
@@ -104,7 +107,12 @@ public class OnboardingRoutes {
         ctx.sessionAttribute("username", username);
 
         // Perform checks and handle the result
-        if (validateUserInput(username, password, firstName, lastName)) {
+        boolean isUsernameUnique = accountController.isUsernameUnique(username);
+        boolean isPasswordStrong = passwordController.isPasswordStrong(password);
+        boolean isValidFirstName = validationController.isValidName(firstName);
+        boolean isValidLastName = validationController.isValidName(lastName);
+
+        if (isUsernameUnique && isPasswordStrong && isValidFirstName && isValidLastName) {
             boolean isInserted = insertUserData(username, password, firstName, lastName);
 
             // Check if the data is successfully inserted into the database
@@ -116,10 +124,22 @@ public class OnboardingRoutes {
                 ctx.result("Failed to create an account. Please try again.");
             }
         } else {
-            // Render an error page or redirect to the signup page with an error message
-            ctx.redirect("/signup?error=true");
+            // Construct a meaningful error message based on validation results
+            StringBuilder errorMessage = new StringBuilder("Validation failed: ");
+
+            if (!isUsernameUnique) {
+                errorMessage.append("Username is not unique. Please choose a different one. ");
+            }
+
+            if (!isPasswordStrong) {
+                errorMessage.append("Password does not meet the strength criteria. Ensure it has at least 8 characters, including one uppercase letter, one lowercase letter, one special character, and a digit. ");
+            }
+            // Render an error page or redirect to the signup page with the constructed error message
+            String encodedErrorMessage = URLEncoder.encode(String.valueOf(errorMessage), StandardCharsets.UTF_8);
+            ctx.redirect("/signup?error=" + encodedErrorMessage);
         }
     }
+
 
     private boolean validateUserInput(String username, String password, String firstName, String lastName) {
         assert username != null && password != null && firstName != null && lastName != null;

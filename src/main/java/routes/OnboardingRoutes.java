@@ -46,6 +46,21 @@ public class OnboardingRoutes {
         app.post("/onboarding-part-two", this::handleOnboardingEndFormSubmission, Role.DEFAULT);
     }
 
+    private String formatPhoneNumber(String phoneNumber) {
+        // Remove any non-digit characters from the phone number
+        String cleanedPhoneNumber = phoneNumber.replaceAll("[^\\d]", "");
+
+        // Check if the cleaned phone number has 10 digits
+        if (cleanedPhoneNumber.length() == 10) {
+            // Format the phone number with spaces
+            return cleanedPhoneNumber.substring(0, 3) + " " + cleanedPhoneNumber.substring(3, 6) + " " + cleanedPhoneNumber.substring(6);
+        } else {
+            // If the phone number doesn't have 10 digits, return the original string
+            return phoneNumber;
+        }
+    }
+
+
     private void handleOnboardingEndFormSubmission(Context ctx) {
         // Get the username from the session saved earlier
         String username = ctx.sessionAttribute("username");
@@ -60,11 +75,25 @@ public class OnboardingRoutes {
         String gender = ctx.formParam("gender");
 
         // Perform checks and handle the result
-        if (validateSecondFormInput(username, email, phone, address, city, postalCode, dateOfBirth, gender)) {
+        boolean validationResult = validateSecondFormInput(username, email, phone, address, city, postalCode, dateOfBirth, gender);
+
+        if (validationResult) {
             boolean isUpdated = updateUserData(username, email, phone, address, city, postalCode, dateOfBirth, gender);
 
             // Check if the data is successfully updated in the database
             if (isUpdated) {
+                // Set the onboarding status in the session
+                ctx.sessionAttribute("onboardingStatus", "completed");
+
+                // Save username, email address, and phone number in the session
+                ctx.sessionAttribute("username", username);
+                ctx.sessionAttribute("email", email);
+
+                // Assuming 'phone' is the original unformatted phone number string
+                String formattedPhone = formatPhoneNumber(phone);
+
+                ctx.sessionAttribute("phone", formattedPhone);
+
                 // Redirect to a completion page or the user's profile page
                 ctx.redirect("/onboarding-complete");
             } else {
@@ -72,10 +101,25 @@ public class OnboardingRoutes {
                 ctx.result("Failed to complete onboarding. Please try again.");
             }
         } else {
+            // Construct a meaningful error message based on validation results
+            StringBuilder errorMessage = new StringBuilder("Validation failed: ");
+
+            if (validationController.isValidEmail(email)) {
+                errorMessage.append("Invalid email address format. ");
+            } else if (validationController.isValidPhone(phone)) {
+                errorMessage.append("Please enter a valid phone number consisting of ten digits.");
+            } else if (validationController.isValidDateOfBirth(dateOfBirth)) {
+                errorMessage.append("Please enter a valid date of birth.");
+            }
+
+            // Add other specific validation messages as needed
+
             // Render an error page or redirect to the onboarding page with an error message
-            ctx.redirect("/signup-end?error=true");
+            String encodedErrorMessage = URLEncoder.encode(errorMessage.toString(), StandardCharsets.UTF_8);
+            ctx.redirect("/signup-end?error=" + encodedErrorMessage);
         }
     }
+
 
     private boolean updateUserData(String username, String email, String phone, String address, String city, String postalCode, LocalDate dateOfBirth, String gender) {
         return accountController.updateUserData(username, email, phone, address, city, postalCode, dateOfBirth, gender);
@@ -103,13 +147,13 @@ public class OnboardingRoutes {
         String firstName = ctx.formParam("first-name");
         String lastName = ctx.formParam("last-name");
 
-        // Save username
-        ctx.sessionAttribute("username", username);
-
         // Perform checks and handle the result
         boolean isUsernameUnique = accountController.isUsernameUnique(username);
+        assert password != null;
         boolean isPasswordStrong = passwordController.isPasswordStrong(password);
+        assert firstName != null;
         boolean isValidFirstName = validationController.isValidName(firstName);
+        assert lastName != null;
         boolean isValidLastName = validationController.isValidName(lastName);
 
         if (isUsernameUnique && isPasswordStrong && isValidFirstName && isValidLastName) {
@@ -117,6 +161,10 @@ public class OnboardingRoutes {
 
             // Check if the data is successfully inserted into the database
             if (isInserted) {
+                // Save username
+                ctx.sessionAttribute("username", username);
+                ctx.sessionAttribute("name", firstName);
+
                 // Redirect to the next onboarding page
                 ctx.redirect("/signup-end");
             } else {

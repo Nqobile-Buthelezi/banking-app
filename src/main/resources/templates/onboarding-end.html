@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -46,6 +46,13 @@
                 <div class="custom-block bg-white col-md-6 text-center mx-auto shadow">
                     <h1 class="display-4">Join Bangoma Bank</h1>
                     <p class="lead">Unlock the Future of Banking 02/02</p>
+
+                    <!-- Add this section to display the error message -->
+                    <div th:if="${param.error != null and not #strings.isEmpty(param.error)}">
+                        <div class="alert alert-danger" role="alert">
+                            <p th:text="${param.error}"></p>
+                        </div>
+                    </div>
 
                     <!-- Second-page signup form -->
                     <form class="custom-form mt-4" id="secondPageForm" action="/onboarding-part-two" method="post">

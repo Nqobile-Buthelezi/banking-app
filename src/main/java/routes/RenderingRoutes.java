@@ -49,6 +49,18 @@ public class RenderingRoutes {
             renderingController.renderTemplate(ctx, "templates/onboarding-end.html", renderingModel);
         }, Role.DEFAULT);
 
+        app.get("/onboarding-complete", ctx -> {
+            renderingModel.replace("role", Role.CUSTOMER.name());
+
+            // load userdata into the renderingModel
+            renderingModel.put("username", ctx.sessionAttribute("username"));
+            renderingModel.put("email", ctx.sessionAttribute("email"));
+            renderingModel.put("phone", ctx.sessionAttribute("phone"));
+            renderingModel.put("name", ctx.sessionAttribute("name"));
+
+            renderingController.renderTemplate(ctx,"templates/index.html", renderingModel);
+        }, Role.CUSTOMER);
+
         app.get("/login", ctx -> {
             // Logic for rendering login page
             renderingController.renderTemplate(ctx, "templates/login.html", renderingModel);

@@ -318,6 +318,10 @@ background-color: #F1FAEE;
   min-width: 465px;
 }
 
+.email-link {
+    white-space: nowrap;
+}
+
 .notifications-block-wrap small {
   background: var(--custom-btn-bg-color);
   display: block;
@@ -895,6 +899,10 @@ background-color: #F1FAEE;
 -----------------------------------------*/
 .pagination {
   margin-top: 20px;
+}
+
+.larger-icon {
+    font-size: 5rem;
 }
 
 .page-link {

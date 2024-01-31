@@ -21,6 +21,11 @@ public class RoleAccess {
         // Placeholder logic to determine user role
         // This could involve inspecting headers, cookies, or examining the royal insignia
 
+        String onboardingStatus = ctx.sessionAttribute("onboardingStatus");
+        if ("completed".equals(onboardingStatus)) {
+            return Role.CUSTOMER;
+        }
+
         // For now, let's check if the "admin" query parameter is present
         if (ctx.queryParam("admin") != null) {
             return Role.ADMIN;

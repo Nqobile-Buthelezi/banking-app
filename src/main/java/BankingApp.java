@@ -37,8 +37,5 @@ public class BankingApp {
         // Configure routes for the application
         Routes routes = new Routes();
         routes.configureRoutes(app);
-
-        // Uncomment the line below if you want to stop the application gracefully
-        // app.stop();
     }
 }

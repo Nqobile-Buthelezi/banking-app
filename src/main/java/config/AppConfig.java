@@ -1,5 +1,7 @@
 package config;
 
+import java.io.File;
+
 /**
  * The AppConfig class holds configuration constants for the application.
  * It includes database-related information and server configuration.
@@ -22,6 +24,19 @@ public class AppConfig {
      * The port number on which the server will run.
      */
     public static final int SERVER_PORT = 7000;
+
+    // Static initializer block to ensure the database directory exists
+    static {
+        File dbDir = new File(dataBaseDirectory);
+        if (!dbDir.exists()) {
+            if (dbDir.mkdirs()) {
+                System.out.println("Database directory created: " + dbDir.getAbsolutePath());
+            } else {
+                System.err.println("Failed to create database directory: " + dbDir.getAbsolutePath());
+                throw new RuntimeException("Could not create database directory.");
+            }
+        }
+    }
 
     /**
      * Private constructor to prevent instantiation of the AppConfig class.

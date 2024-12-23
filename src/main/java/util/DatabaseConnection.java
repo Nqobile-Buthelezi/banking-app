@@ -19,21 +19,26 @@ public class DatabaseConnection {
      * @return A Connection object representing the database connection.
      * @throws RuntimeException If there is an error connecting to the database.
      */
-    public static Connection connect() {
-        try {
+    public static Connection connect() 
+    {
+        try 
+        {
             // Establish a connection to the SQLite database
             String url = AppConfig.DB_URL;
 
             // Check if the database file exists, create it if it doesn't
-            File databaseFile = new File(url.replace("jdbc:sqlite:", ""));
-            if (!databaseFile.exists()) {
-                createDatabase(databaseFile);
+            File databaseFile = new File( url.replace( "jdbc:sqlite:", "" ) );
+            if ( !databaseFile.exists() ) 
+            {
+                createDatabase( databaseFile );
             }
 
-            return DriverManager.getConnection(url);
-        } catch (SQLException e) {
+            return DriverManager.getConnection( url );
+        } 
+        catch ( SQLException e ) 
+        {
             e.printStackTrace();
-            throw new RuntimeException("Failed to connect to the database.");
+            throw new RuntimeException( "Failed to connect to the database." );
         }
     }
 
@@ -43,16 +48,23 @@ public class DatabaseConnection {
      * @param databaseFile The File object representing the database file.
      * @throws RuntimeException If there is an error creating the database file.
      */
-    private static void createDatabase(File databaseFile) {
-        try {
-            if (databaseFile.createNewFile()) {
-                System.out.println("Database file created: " + databaseFile.getAbsolutePath());
-            } else {
-                throw new RuntimeException("Failed to create the database file.");
+    private static void createDatabase( File databaseFile ) 
+    {
+        try 
+        {
+            if ( databaseFile.createNewFile() ) 
+            {
+                System.out.println( "Database file created: " + databaseFile.getAbsolutePath() );
+            } 
+            else 
+            {
+                throw new RuntimeException( "Failed to create the database file." );
             }
-        } catch (IOException e) {
+        } 
+        catch ( IOException e ) 
+        {
             e.printStackTrace();
-            throw new RuntimeException("Failed to create the database file.");
+            throw new RuntimeException( "Failed to create the database file." );
         }
     }
 }

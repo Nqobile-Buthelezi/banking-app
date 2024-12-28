@@ -38,7 +38,31 @@ public class RenderingRoutes {
                 renderingController.renderTemplate(ctx, "index.html", renderingModel),
             Role.DEFAULT);
 
-        // Define routes for signup and login
+        app.get("/help-center", ctx ->
+            renderingController.renderTemplate(ctx, "help-center.html", renderingModel),
+            Role.DEFAULT
+        );
+
+        app.get("/profile", ctx -> 
+            renderingController.renderTemplate(ctx, "profile.html", renderingModel),
+            Role.DEFAULT
+        );
+
+        app.get("/settings", ctx -> 
+            renderingController.renderTemplate(ctx, "setting.html", renderingModel),
+            Role.DEFAULT
+        );
+
+        app.get("/transaction-detail", ctx -> 
+            renderingController.renderTemplate(ctx, "transaction-detail.html", renderingModel),
+            Role.DEFAULT
+        );
+
+        app.get("/wallet", ctx -> 
+            renderingController.renderTemplate(ctx, "wallet.html", renderingModel),
+            Role.DEFAULT
+        );
+
         app.get("/signup", ctx ->
                 renderingController.renderTemplate(ctx, "onboarding-start.html", renderingModel),
             Role.DEFAULT);
@@ -47,20 +71,20 @@ public class RenderingRoutes {
                 renderingController.renderTemplate(ctx, "onboarding-end.html", renderingModel),
             Role.DEFAULT);
 
+        app.get("/login", ctx ->
+                renderingController.renderTemplate(ctx, "login.html", renderingModel),
+            Role.DEFAULT);
+
         app.get("/onboarding-complete", ctx -> {
             renderingModel.replace("role", Role.CUSTOMER.name());
-
+    
             // Load user data into the renderingModel
             renderingModel.put("username", ctx.sessionAttribute("username"));
             renderingModel.put("email", ctx.sessionAttribute("email"));
             renderingModel.put("phone", ctx.sessionAttribute("phone"));
             renderingModel.put("name", ctx.sessionAttribute("name"));
-
+    
             renderingController.renderTemplate(ctx, "index.html", renderingModel);
         }, Role.CUSTOMER);
-
-        app.get("/login", ctx ->
-                renderingController.renderTemplate(ctx, "login.html", renderingModel),
-            Role.DEFAULT);
     }
 }

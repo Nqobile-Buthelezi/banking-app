@@ -1,28 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="">
-    <meta name="author" content="Tooplate">
-
-    <title>Login - Bangoma Bank</title>
-
-    <!-- CSS FILES -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@300;400;700&display=swap" rel="stylesheet">
-
-    <!-- Adjust paths to reflect classpath -->
-    <link href="css/bootstrap.min.css" rel="stylesheet">
-    <link href="css/bootstrap-icons.css" rel="stylesheet">
-    <link href="css/apexcharts.css" rel="stylesheet">
-    <link href="css/tooplate-mini-finance.css" rel="stylesheet">
-</head>
+<head th:replace="~{fragments/head :: head(pageTitle='Login Page')}"></head>
 
 <body class="sign-up-background">
-<header class="navbar sticky-top bg-white shadow">
+
+    <header class="navbar sticky-top bg-white shadow">
+        
     <div class="container-fluid">
         <!-- Bank Logo and Name -->
         <a class="navbar-brand" href="/">
@@ -58,9 +42,6 @@
             <h1 class="display-4">Bangoma Bank Login</h1>
             <p class="lead">Access Your Account</p>
 
-            <!-- Your login form can go here -->
-            <!-- Add your form elements, input fields, and submit button -->
-            <!-- Example: -->
             <form class="mt-4">
                 <div class="mb-3">
                     <label for="username" class="form-label">Username:</label>

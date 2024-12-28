@@ -19,6 +19,7 @@
                 </configuration>
             </plugin>
         </plugins>
+        <testSourceDirectory>src/test/java</testSourceDirectory>
     </build>
 
     <dependencies>
@@ -46,6 +47,16 @@
             <groupId>org.thymeleaf</groupId>
             <artifactId>thymeleaf</artifactId>
             <version>3.1.2.RELEASE</version>
+        </dependency>
+        <dependency>
+            <groupId>org.seleniumhq.selenium</groupId>
+            <artifactId>selenium-java</artifactId>
+            <version>4.27.0</version>
+        </dependency>
+        <dependency>
+            <groupId>io.cucumber</groupId>
+            <artifactId>cucumber-java</artifactId>
+            <version>7.20.1</version>
         </dependency>
     </dependencies>
 

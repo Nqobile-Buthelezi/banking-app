@@ -16,11 +16,11 @@ public class Routes {
      *
      * @param app The Javalin application to which routes are added.
      */
-    public void configureRoutes(Javalin app) {
-
+    public void configureRoutes( Javalin app ) 
+    {
         // Configure routes for user actions
-        UserRoutes userRoutes = new UserRoutes(new UserController());
-        userRoutes.configureUserRoutes(app);
+        UserRoutes userRoutes = new UserRoutes( new UserController() );
+        userRoutes.configureUserRoutes( app );
 
         // Configure routes for onboarding processes
         OnboardingRoutes onboardingRoutes = new OnboardingRoutes(
@@ -28,10 +28,10 @@ public class Routes {
                 new PasswordController(),
                 new AccountController()
         );
-        onboardingRoutes.configureOnboardingRoutes(app);
+        onboardingRoutes.configureOnboardingRoutes( app );
 
         // Configure routes for rendering templates
-        RenderingRoutes renderingRoutes = new RenderingRoutes(new RenderingController());
-        renderingRoutes.configureRenderingRoutes(app);
+        RenderingRoutes renderingRoutes = new RenderingRoutes( new RenderingController() );
+        renderingRoutes.configureRenderingRoutes( app );
     }
 }

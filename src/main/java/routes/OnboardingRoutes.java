@@ -204,6 +204,4 @@ public class OnboardingRoutes {
         return accountController.insertUserData(username, password, firstName, lastName);
     }
 
-
-
 }

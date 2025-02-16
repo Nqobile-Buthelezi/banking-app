@@ -9,7 +9,7 @@ A simple banking web application built using **Java**, **Maven**, and **Javalin*
 - **Fund Transfers**: Transfer money between accounts.
 - **Transaction History**: View all past transactions and filter by date or type.
 - **Admin Panel**: Admin users can manage accounts, view users' transactions, and more.
-- **Responsive Design**: Optimised for both desktop and mobile devices.
+- **Responsive Design**: Optimized for both desktop and mobile devices.
 
 ## Technologies Used
 
